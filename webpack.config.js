@@ -46,7 +46,18 @@ if (TARGET === 'start' || !TARGET) {
         },
         plugins: [
             new webpack.HotModuleReplacementPlugin()
-        ]
+        ],
+        module: {
+            loaders: [
+                {
+                    // test is commonly used to match file extension
+                    test: /\.css$/,
+                    loaders: ['style', 'css'],
+                    // include is commonly used to match directory
+                    include: PATHS.app
+                }
+            ]
+        }
     });
 }
 
