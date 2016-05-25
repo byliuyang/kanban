@@ -17,6 +17,9 @@ const common = {
     entry: {
         app: PATHS.app
     },
+    resolve: {
+        extensions: ['', 'js', 'jsx']
+    },
     output: {
         path: PATHS.build,
         filename: "bundle.js"
@@ -57,6 +60,11 @@ if (TARGET === 'start' || !TARGET) {
                     test: /\.css$/,
                     loaders: ['style', 'css'],
                     // include is commonly used to match directory
+                    include: PATHS.app
+                },
+                {
+                    test: /\.jsx?$/,
+                    loaders: ['babel!cacheDirectory'],
                     include: PATHS.app
                 }
             ]
