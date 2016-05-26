@@ -18,7 +18,7 @@ const common = {
         app: PATHS.app
     },
     resolve: {
-        extensions: ['', 'js', 'jsx']
+        extensions: ['', '.js', '.jsx']
     },
     output: {
         path: PATHS.build,
@@ -64,7 +64,7 @@ if (TARGET === 'start' || !TARGET) {
                 },
                 {
                     test: /\.jsx?$/,
-                    loaders: ['babel!cacheDirectory'],
+                    loaders: ['babel?cacheDirectory'],
                     include: PATHS.app
                 }
             ]
