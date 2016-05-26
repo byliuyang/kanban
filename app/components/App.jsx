@@ -1,6 +1,6 @@
 import React from 'react';
 import uuid from 'node-uuid';
-import Note from './Note'
+import Notes from './Notes'
 
 export default class App extends React.Component {
     constructor(prop) {
@@ -27,11 +27,7 @@ export default class App extends React.Component {
         const notes = this.state.notes;
         return <div>
             <button onClick={this.addNote}>+</button>
-            <ul>{notes.map((note =>
-                <li key={note.id}>
-                    <Note task={note.task}></Note>
-                </li>))}
-            </ul>
+            <Notes notes={notes}></Notes>
         </div>;
     }
 
