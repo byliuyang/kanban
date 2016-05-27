@@ -27,7 +27,7 @@ export default class App extends React.Component {
         const notes = this.state.notes;
         return <div>
             <button onClick={this.addNote}>+</button>
-            <Notes notes={notes}></Notes>
+            <Notes notes={notes} onEdit={this.editNote}></Notes>
         </div>;
     }
 
@@ -38,5 +38,19 @@ export default class App extends React.Component {
                 task: 'New Note'
             })
         })
+    };
+
+    editNote = (id, task) => {
+        // Don't modify if trying to set empty value
+        if (!task.trim())
+            return;
+
+        const notes = this.state.notes.map((note) => {
+            if(note.id === id && task)
+                note.task = task;
+            return note;
+        });
+
+        this.setState({notes});
     }
 }

@@ -1,11 +1,12 @@
 import React from 'react'
 import Note from './Note'
 
-export default ({notes}) => {
+export default ({notes, onEdit}) => {
     return (
         <ul>{notes.map((note =>
             <li key={note.id}>
-                <Note task={note.task}></Note>
+                <Note task={note.task}
+                      onEdit={onEdit.bind(null, note.id)}></Note>
             </li>))}
         </ul>);
 }
