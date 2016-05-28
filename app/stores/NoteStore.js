@@ -20,7 +20,16 @@ class NoteStore {
     }
 
     update(updatedNote) {
+        const notes = this.notes.map((note) => {
+            if (note.id === updatedNote.id) {
+                return Object.assign({}, note, updatedNote);
+            }
 
+            return note;
+        });
+
+        // This is the same as `this.setState({notes: notes})`
+        this.setState({notes});
     }
 
     delete(id) {
