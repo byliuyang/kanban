@@ -1,27 +1,25 @@
 import React from 'react';
-import uuid from 'node-uuid';
-import Notes from './Notes'
+import Notes from './Notes';
+import NoteActions from '../actions/NoteActions';
+import NoteStore from '../stores/NoteStore';
 
 export default class App extends React.Component {
     constructor(prop) {
         super(prop);
-        this.state = {
-            notes: [
-                {
-                    id: uuid.v4(),
-                    task: 'Learn webpack'
-                },
-                {
-                    id: uuid.v4(),
-                    task: 'Learn React'
-                },
-                {
-                    id: uuid.v4(),
-                    task: 'Launch'
-                }
-            ]
-        };
+        this.state = NoteStore.getState();
     }
+
+    componentDidMount() {
+        NoteStore.listen(this.storeChanged);
+    }
+
+    componentWillUnmount() {
+        NoteStore.unlisten(this.storeChanged);
+    }
+
+    storeChanged = (state) => {
+        this.setState(state);
+    };
 
     render() {
         const notes = this.state.notes;
@@ -36,12 +34,7 @@ export default class App extends React.Component {
     }
 
     addNote = () => {
-        this.setState({
-            notes: this.state.notes.concat({
-                id: uuid.v4(),
-                task: 'New Note'
-            })
-        })
+        NoteActions.create({task: 'New task'});
     };
 
     editNote = (id, task) => {
@@ -49,25 +42,13 @@ export default class App extends React.Component {
         if (!task.trim())
             return;
 
-        const notes = this.state.notes.map((note) => {
-            if (note.id === id && task)
-                note.task = task;
-            return note;
-        });
-
-        this.setState({notes});
+        NoteActions.update({id, task});
     };
 
     deleteNote = (id, e) => {
         // Avoid bubbling to edit
         e.stopPropagation();
 
-        console.log("Delete");
-
-        this.setState({
-            notes: this.state.notes.filter((note)=>
-                note.id !== id
-            )
-        });
+        NoteActions.delete(id);
     };
 }
