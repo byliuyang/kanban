@@ -47,7 +47,7 @@ class LaneStore {
             return lane;
         });
 
-        this.setState(lanes);
+        this.setState({lanes});
     }
 
 }
