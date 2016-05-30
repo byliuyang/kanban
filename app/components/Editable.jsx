@@ -9,7 +9,7 @@ export default class Editable extends React.Component {
         // Render the component differently based on state.
         return (
             <div {...props}>
-                {editing ? this.renderEdit() : this.renderNote()}
+                {editing ? this.renderEdit() : this.renderValue()}
             </div>
         );
     }
