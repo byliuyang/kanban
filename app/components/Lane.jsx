@@ -4,18 +4,26 @@ import Notes from './Notes';
 import NoteActions from '../actions/NoteActions';
 import NoteStore from '../stores/NoteStore';
 import LaneActions from '../actions/LaneActions';
+import Editable from './Editable';
 
-export default class Line extends React.Component {
+export default class Lane extends React.Component {
     render() {
         const {lane, ...props} = this.props;
 
         return (
             <div {...props}>
-                <div className="lane-header">
+                <div className="lane-header" onClick={this.activateLaneEdit}>
                     <div className="lane-add-note">
                         <button onClick={this.addNote}>+</button>
                     </div>
-                    <div className="lane-name">{lane.name}</div>
+                    <Editable
+                        className="lane-name"
+                        editing={lane.editing}
+                        value={lane.name}
+                        onEdit={this.editName}/>
+                    <div className="lane-delete">
+                        <button onClick={this.deleteLane}>x</button>
+                    </div>
                 </div>
                 <AltContainer
                     stores={[NoteStore]}
@@ -23,6 +31,7 @@ export default class Line extends React.Component {
                         notes:() => NoteStore.getNotesByIds(lane.notes)
                     }}>
                     <Notes
+                        onValueClick={this.activateNoteEdit}
                         onEdit={this.editNote}
                         onDelete={this.deleteNote}/>
                 </AltContainer>
@@ -41,7 +50,11 @@ export default class Line extends React.Component {
         });
     };
 
-    addNote = () => {
+    addNote = (e) => {
+        // If note is added, avoid opening lane name edit by stopping
+        // event bubbling in this case
+        e.stopPropagation();
+
         const laneId = this.props.lane.id;
         const note = NoteActions.create({task: "New note"});
 
@@ -60,4 +73,22 @@ export default class Line extends React.Component {
         LaneActions.detachFromLane({noteId, laneId});
         NoteActions.delete(noteId);
     };
+
+    deleteLane = () => {
+        const laneId = this.props.lane.id;
+
+        console.log(`delete lane ${laneId}`);
+    };
+
+    activateLaneEdit = () => {
+        const laneId = this.props.lane.id;
+
+        console.log(`active lane ${laneId} edit`);
+    };
+
+    activateNoteEdit = (id) => {
+
+        console.log(`active note ${id} edit`);
+    };
+
 }
