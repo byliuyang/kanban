@@ -41,12 +41,15 @@ export default class Lane extends React.Component {
 
     editNote = (id, task) => {
         // Don't modify if trying to set an empty value
-        if (!task.trim())
+        if (!task.trim()) {
+            NoteActions.update({id, editing: false});
             return;
+        }
 
         NoteActions.update({
-            id: id,
-            task: task
+            id,
+            task,
+            editing: false
         });
     };
 
@@ -64,6 +67,18 @@ export default class Lane extends React.Component {
         })
     };
 
+    editName = (name) => {
+        const laneId = this.props.lane.id;
+
+        // Don't modify if trying to set an empty value
+        if (!name.trim()) {
+            LaneActions.update({id: laneId, editing: false});
+            return;
+        }
+
+        LaneActions.update({id: laneId, name, editing: false});
+    };
+
     deleteNote = (noteId, e) => {
         // Avoid bubbling to edit
         e.stopPropagation();
@@ -77,16 +92,22 @@ export default class Lane extends React.Component {
     deleteLane = () => {
         const laneId = this.props.lane.id;
 
+        LaneActions.delete(laneId);
+
         console.log(`delete lane ${laneId}`);
     };
 
     activateLaneEdit = () => {
         const laneId = this.props.lane.id;
 
+        LaneActions.update({id: laneId, editing: true});
+
         console.log(`active lane ${laneId} edit`);
     };
 
     activateNoteEdit = (id) => {
+
+        NoteActions.update({id, editing: true});
 
         console.log(`active note ${id} edit`);
     };
