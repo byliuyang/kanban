@@ -15,6 +15,8 @@ const PATHS = {
 
 process.env.BABEL_ENV = TARGET;
 
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 const common = {
     // Entry accept a path or an object of entries.
     // We'll be using the latter form given it's convenient with
@@ -46,7 +48,15 @@ const common = {
                 include: PATHS.app
             }
         ]
-    }
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: 'node_modules/html-webpack-template/index.ejs',
+            title: 'Kanban app',
+            appMountId: 'app',
+            inject: false
+        })
+    ]
 };
 
 // Default configuration. We'll return this
@@ -55,7 +65,6 @@ if (TARGET === 'start' || !TARGET) {
     module.exports = merge(common, {
         devtool: 'eval-source-map',
         devServer: {
-            contentBase: PATHS.build,
             // Enable history API fallback so HTML5 History API based
             // routing works. This is good default that will come
             // in handy in more complicated setups.
