@@ -25,6 +25,22 @@ const common = {
     output: {
         path: PATHS.build,
         filename: "bundle.js"
+    },
+    module: {
+        loaders: [
+            {
+                // test is commonly used to match file extension
+                test: /\.css$/,
+                loaders: ['style', 'css'],
+                // include is commonly used to match directory
+                include: PATHS.app
+            },
+            {
+                test: /\.jsx?$/,
+                loaders: ['babel?cacheDirectory'],
+                include: PATHS.app
+            }
+        ]
     }
 };
 
@@ -54,26 +70,18 @@ if (TARGET === 'start' || !TARGET) {
             new NpmInstallPlugin({
                 save: true
             })
-        ],
-        module: {
-            loaders: [
-                {
-                    // test is commonly used to match file extension
-                    test: /\.css$/,
-                    loaders: ['style', 'css'],
-                    // include is commonly used to match directory
-                    include: PATHS.app
-                },
-                {
-                    test: /\.jsx?$/,
-                    loaders: ['babel?cacheDirectory'],
-                    include: PATHS.app
-                }
-            ]
-        }
+        ]
     });
 }
 
 if (TARGET === 'build') {
-    module.exports = merge(common, {});
+    module.exports = merge(common, {
+        plugins: [
+            new webpack.optimize.UglifyJsPlugin({
+                compress: {
+                    warnings: false
+                }
+            })
+        ]
+    });
 }
