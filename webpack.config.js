@@ -91,7 +91,10 @@ if (TARGET === 'build') {
             })
         },
         plugins: [
-
+            // Extract vendor and manifest files
+            new webpack.optimize.CommonsChunkPlugin({
+                names: ['vendor', 'manifest']
+            }),
             new webpack.DefinePlugin({
                 'process.env.NODE_ENV': JSON.stringify("production")
             }),
