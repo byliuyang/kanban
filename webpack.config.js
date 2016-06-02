@@ -17,6 +17,8 @@ process.env.BABEL_ENV = TARGET;
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+const CleanPlugin = require('clean-webpack-plugin');
+
 const common = {
     // Entry accept a path or an object of entries.
     // We'll be using the latter form given it's convenient with
@@ -101,6 +103,7 @@ if (TARGET === 'build') {
             })
         },
         plugins: [
+            new CleanPlugin([PATHS.build]),
             // Extract vendor and manifest files
             new webpack.optimize.CommonsChunkPlugin({
                 names: ['vendor', 'manifest']
