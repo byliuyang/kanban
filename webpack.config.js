@@ -121,6 +121,7 @@ if (TARGET === 'build') {
             ]
         },
         plugins: [
+            new webpack.optimize.DedupePlugin(),
             new ExtractTextPlugin('[name].[chunkhash].css'),
             new CleanPlugin([PATHS.build]),
             // Extract vendor and manifest files
