@@ -19,6 +19,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const CleanPlugin = require('clean-webpack-plugin');
 
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
 const common = {
     // Entry accept a path or an object of entries.
     // We'll be using the latter form given it's convenient with
@@ -37,13 +39,6 @@ const common = {
     },
     module: {
         loaders: [
-            {
-                // test is commonly used to match file extension
-                test: /\.css$/,
-                loaders: ['style', 'css'],
-                // include is commonly used to match directory
-                include: PATHS.app
-            },
             {
                 test: /\.jsx?$/,
                 loaders: ['babel?cacheDirectory'],
@@ -81,6 +76,18 @@ if (TARGET === 'start' || !TARGET) {
             host: process.env.HOST || "0.0.0.0",
             port: process.env.PORT
         },
+        module: {
+            loaders: [
+                {
+                    // Define development specific CSS setup
+                    // test is commonly used to match file extension
+                    test: /\.css$/,
+                    loaders: ['style', 'css'],
+                    // include is commonly used to match directory
+                    include: PATHS.app
+                }
+            ]
+        },
         plugins: [
             new webpack.HotModuleReplacementPlugin(),
             new NpmInstallPlugin({
@@ -102,7 +109,19 @@ if (TARGET === 'build') {
                 return v !== 'alt-utils';
             })
         },
+        module: {
+            loaders: [
+                {
+                    // Extract css during build
+                    test: /\.css$/,
+                    loader: ExtractTextPlugin.extract('style', 'css'),
+                    // include is commonly used to match directory
+                    include: PATHS.app
+                }
+            ]
+        },
         plugins: [
+            new ExtractTextPlugin('[name].[chunkhash].css'),
             new CleanPlugin([PATHS.build]),
             // Extract vendor and manifest files
             new webpack.optimize.CommonsChunkPlugin({
