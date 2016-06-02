@@ -28,7 +28,8 @@ const common = {
     output: {
         path: PATHS.build,
         // Output using entry name
-        filename: '[name].js'
+        filename: '[name].[chunkhash].js',
+        chunkFilename: '[chunkhash].js'
     },
     module: {
         loaders: [
