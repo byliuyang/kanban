@@ -11,7 +11,8 @@ const TARGET = process.env.npm_lifecycle_event;
 const PATHS = {
     app: path.join(__dirname, 'app'),
     build: path.join(__dirname, 'build'),
-    style: path.join(__dirname, 'app/main.css')
+    style: path.join(__dirname, 'app/main.css'),
+    test: path.join(__dirname, 'tests')
 };
 
 process.env.BABEL_ENV = TARGET;
@@ -27,17 +28,13 @@ const common = {
     // We'll be using the latter form given it's convenient with
     // more complex configurations
     entry: {
-        app: PATHS.app,
-        style: PATHS.style
+        app: PATHS.app
     },
     resolve: {
         extensions: ['', '.js', '.jsx']
     },
     output: {
         path: PATHS.build,
-        // Output using entry name
-        filename: '[name].[chunkhash].js',
-        chunkFilename: '[chunkhash].js'
     },
     module: {
         loaders: [
@@ -62,6 +59,17 @@ const common = {
 // if Webpack is called outside of npm.
 if (TARGET === 'start' || !TARGET) {
     module.exports = merge(common, {
+
+        entry: {
+            style: PATHS.style
+        },
+
+        output: {
+            // Output using entry name
+            filename: '[name].[hash].js',
+            chunkFilename: '[hash].js'
+        },
+
         devtool: 'eval-source-map',
         devServer: {
             // Enable history API fallback so HTML5 History API based
@@ -109,7 +117,13 @@ if (TARGET === 'build' || TARGET === 'stats') {
             vendor: Object.keys(pkg.dependencies).filter(function (v) {
                 // Exclude alt-utils as it won't work with this setup
                 return v !== 'alt-utils';
-            })
+            }),
+            style: PATHS.style
+        },
+        output: {
+            // Output using entry name
+            filename: '[name].[chunkhash].js',
+            chunkFilename: '[chunkhash].js'
         },
         module: {
             loaders: [
@@ -139,5 +153,37 @@ if (TARGET === 'build' || TARGET === 'stats') {
                 }
             })
         ]
+    });
+}
+
+if (TARGET === 'test' || TARGET === 'tdd') {
+    module.exports = merge(common, {
+        output: {
+            // Output using entry name
+            filename: '[name].[chunkhash].js',
+            chunkFilename: '[chunkhash].js'
+        },
+        devtool: 'inline-source-map',
+        resolve: {
+            alias: {
+                'app': PATHS.app
+            }
+        },
+        module: {
+            preLoaders: [
+                {
+                    test: /\.jsx?$/,
+                    loaders: ['isparta-instrumenter'],
+                    include: PATHS.app
+                }
+            ],
+            loaders: [
+                {
+                    test: /\.jsx?$/,
+                    loader: ['babel?cacheDirectory'],
+                    include: PATHS.test
+                }
+            ]
+        }
     });
 }
