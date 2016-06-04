@@ -2,6 +2,7 @@ import React from 'react';
 import {
     renderIntoDocument,
     findRenderedDOMComponentWithClass,
+    findRenderedDOMComponentWithTag,
     Simulate
 } from 'react-addons-test-utils';
 import assert from 'assert';
@@ -32,5 +33,25 @@ describe('Editable', () => {
         Simulate.click(valueComponent);
 
         assert.equal(triggered, true);
+    });
+
+    it('triggers onEdit', () => {
+        let triggers = false;
+        const newValue = 'newValue';
+        const onEdit = (val) => {
+            triggers = true;
+            assert.equal(val, newValue);
+        };
+
+        const component = renderIntoDocument(
+            <Editable editing={true} value={'value'} onEdit={onEdit}/>
+        );
+
+        const input = findRenderedDOMComponentWithTag(component, 'input');
+        input.value = newValue;
+
+        Simulate.blur(input);
+
+        assert.equal(triggers, true);
     });
 });
