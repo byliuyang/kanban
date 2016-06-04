@@ -34,7 +34,7 @@ const common = {
         extensions: ['', '.js', '.jsx']
     },
     output: {
-        path: PATHS.build,
+        path: PATHS.build
     },
     module: {
         loaders: [
@@ -180,7 +180,7 @@ if (TARGET === 'test' || TARGET === 'tdd') {
             loaders: [
                 {
                     test: /\.jsx?$/,
-                    loader: ['babel?cacheDirectory'],
+                    loaders: ['babel?cacheDirectory'],
                     include: PATHS.test
                 }
             ]
