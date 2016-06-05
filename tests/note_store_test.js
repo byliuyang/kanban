@@ -35,7 +35,7 @@ describe('NoteStore', () => {
         assert.equal(state.notes[0].task, updatedTask);
     });
 
-    it('delete notes', () => {
+    it('deletes notes', () => {
         NoteActions.create({task: 'test'});
 
         const note = NoteStore.getState().notes[0];
@@ -45,5 +45,18 @@ describe('NoteStore', () => {
         const state = NoteStore.getState();
 
         assert.equal(state.notes.length, 0);
+    });
+
+    it('gets notes', () => {
+        const task = 'test';
+
+        NoteActions.create({task});
+
+        const note = NoteStore.getState().notes[0];
+
+        const notes = NoteStore.getNotesByIds([note.id]);
+
+        assert.equal(notes.length, 1);
+        assert.equal(notes[0].task, task);
     });
 });
