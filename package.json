@@ -30,6 +30,8 @@
     "html-webpack-plugin": "^2.19.0",
     "html-webpack-template": "^5.0.0",
     "isparta-instrumenter-loader": "^1.0.0",
+    "jshint": "^2.9.2",
+    "jshint-loader": "^0.8.3",
     "karma": "^0.13.22",
     "karma-coverage": "^1.0.0",
     "karma-mocha": "^1.0.1",
