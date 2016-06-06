@@ -15,7 +15,7 @@ const Lanes = ({lanes}) => {
 };
 
 Lanes.propTypes = {
-    lanes: React.propTypes.array
+    lanes: React.PropTypes.array
 };
 
 Lanes.defaultProps = {

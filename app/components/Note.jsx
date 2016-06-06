@@ -45,12 +45,12 @@ class Note extends React.Component {
     }
 }
 Note.propTypes = {
-    id: React.propTypes.string.isRequired,
-    editing: React.propTypes.bool,
-    connectDragSource: React.propTypes.func,
-    connectDropTarget: React.propTypes.func,
-    isDragging: React.propTypes.bool,
-    onMove: React.propTypes.func
+    id: React.PropTypes.string.isRequired,
+    editing: React.PropTypes.bool,
+    connectDragSource: React.PropTypes.func,
+    connectDropTarget: React.PropTypes.func,
+    isDragging: React.PropTypes.bool,
+    onMove: React.PropTypes.func
 };
 Note.defaultProps = {
     onMove: () => {
