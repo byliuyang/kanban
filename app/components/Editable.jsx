@@ -1,8 +1,23 @@
 import React from 'react';
 
-class Editable extends React.Component {
+export default class Editable extends React.Component {
 
-    render() {
+    static props:{
+        value?: string,
+        editing?: boolean,
+        onEdit?: Function,
+        onDelete?: Function,
+        onValueClick?: Function,
+    };
+
+    static defaultProps = {
+        value: '',
+        editing: 'false',
+        onEdit: () => {
+        }
+    };
+
+    render():Object {
 
         const {value, onEdit, onValueClick, editing, ...props} = this.props;
 
@@ -14,7 +29,7 @@ class Editable extends React.Component {
         );
     }
 
-    renderEdit = () => {
+    renderEdit:() => Object = () => {
         return <input type="text"
                       ref={ element => element ?
                       element.selectionStart =
@@ -25,7 +40,7 @@ class Editable extends React.Component {
                       onKeyPress={this.checkEnter}/>;
     };
 
-    renderValue = () => {
+    renderValue:() => Object = () => {
         // If user clicks a normal note,
         // trigger editing logic.
         const onDelete = this.props.onDelete;
@@ -37,20 +52,20 @@ class Editable extends React.Component {
         );
     };
 
-    renderDelete = () => {
+    renderDelete:() => Object = () => {
         return <button
             className="delete"
             onClick={this.props.onDelete}>x</button>;
     };
 
-    checkEnter = (e) => {
+    checkEnter:(e:Object) => void = (e) => {
         // The user hit *Enter*, let's
         // finish up
         if (e.key === "Enter")
             this.finishEdit(e);
     };
 
-    finishEdit = (e) => {
+    finishEdit:(e:Object) => void = (e) => {
         // `Note` will trigger an optional `onEdit` callback
         // once it has a new value.
         //
@@ -58,20 +73,3 @@ class Editable extends React.Component {
         this.props.onEdit(e.target.value);
     };
 }
-
-Editable.propTypes = {
-    value: React.PropTypes.string,
-    onEdit: React.PropTypes.func,
-    onValueClick: React.PropTypes.func,
-    onDelete: React.PropTypes.func,
-    editing: React.PropTypes.bool
-};
-
-Editable.defaultProps = {
-    value: '',
-    editing: 'false',
-    onEdit: () => {
-    }
-};
-
-export default Editable;
