@@ -1,3 +1,4 @@
+/* @flow */
 import React from 'react';
 import {DragSource, DropTarget} from 'react-dnd';
 import ItemTypes from '../constants/itemTypes';
@@ -20,16 +21,22 @@ const noteTarget = {
     }
 };
 
-@DragSource(ItemTypes.NOTE, noteSource, (connect, monitor) => ({
-    connectDragSource: connect.dragSource(),
-    // Map isDragging state to isDragging property
-    isDragging: monitor.isDragging()
-}))
-@DropTarget(ItemTypes.NOTE, noteTarget, (connect) => ({
-    connectDropTarget: connect.dropTarget()
-}))
 class Note extends React.Component {
-    render() {
+    static props:{
+        id: string,
+        editing?: boolean,
+        connectDragSource?: Function,
+        connectDropTarget?: Function,
+        isDragging?: boolean,
+        onMove?: Function
+    };
+
+    static defaultProps = {
+        onMove: () => {
+        }
+    };
+
+    render():Object {
         const {connectDragSource, connectDropTarget, isDragging, id, onMove, editing, ...props} = this.props;
 
         // Pass through if we are editing
@@ -44,17 +51,11 @@ class Note extends React.Component {
         );
     }
 }
-Note.propTypes = {
-    id: React.PropTypes.string.isRequired,
-    editing: React.PropTypes.bool,
-    connectDragSource: React.PropTypes.func,
-    connectDropTarget: React.PropTypes.func,
-    isDragging: React.PropTypes.bool,
-    onMove: React.PropTypes.func
-};
-Note.defaultProps = {
-    onMove: () => {
-    }
-};
 
-export default Note;
+export default DragSource(ItemTypes.NOTE, noteSource, (connect, monitor) => ({
+    connectDragSource: connect.dragSource(),
+    // Map isDragging state to isDragging property
+    isDragging: monitor.isDragging()
+}))(DropTarget(ItemTypes.NOTE, noteTarget, (connect) => ({
+    connectDropTarget: connect.dropTarget()
+}))(Note));
