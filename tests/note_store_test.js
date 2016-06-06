@@ -1,3 +1,4 @@
+/*eslint-env node, mocha */
 import assert from 'assert';
 import NoteActions from '../app/actions/NoteActions';
 import NoteStore from '../app/stores/NoteStore';
