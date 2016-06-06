@@ -22,6 +22,6 @@
     "jsx-quotes": 1,
     "react/jsx-no-undef": 1,
     "react/jsx-uses-react": 1,
-    "react/jsx-uses-varsc": 1
+    "react/jsx-uses-vars": 1
   }
 }
