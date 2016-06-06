@@ -80,7 +80,7 @@ class Lane extends React.Component {
         e.stopPropagation();
 
         const laneId = this.props.lane.id;
-        const note = NoteActions.create({task: "New note"});
+        const note = NoteActions.create({task: 'New note'});
 
         LaneActions.attachToLane({
             noteId: note.id,

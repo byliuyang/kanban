@@ -20,7 +20,7 @@ export default class Editable extends React.Component {
 
     render():Object {
 
-        const {value, onEdit, onValueClick, editing, ...props} = this.props;
+        const {editing, ...props} = this.props;
 
         // Render the component differently based on state.
         return (
@@ -62,7 +62,7 @@ export default class Editable extends React.Component {
     checkEnter:(e:Object) => void = (e) => {
         // The user hit *Enter*, let's
         // finish up
-        if (e.key === "Enter")
+        if (e.key === 'Enter')
             this.finishEdit(e);
     };
 

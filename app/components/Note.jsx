@@ -37,7 +37,7 @@ class Note extends React.Component {
     };
 
     render():Object {
-        const {connectDragSource, connectDropTarget, isDragging, id, onMove, editing, ...props} = this.props;
+        const {connectDragSource, connectDropTarget, isDragging, editing, ...props} = this.props;
 
         // Pass through if we are editing
         const dragSource = editing ? a => a : connectDragSource;
