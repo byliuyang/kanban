@@ -37,13 +37,6 @@ const common = {
         path: PATHS.build
     },
     module: {
-        preLoaders: [
-            {
-                test: /\.jsx?$/,
-                loaders: ['jshint'],
-                include: PATHS.app
-            }
-        ],
         loaders: [
             {
                 test: /\.jsx?$/,
