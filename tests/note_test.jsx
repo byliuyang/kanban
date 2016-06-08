@@ -1,14 +1,10 @@
 /*eslint-env node, mocha */
-import React from 'react';
-import {
-    renderIntoDocument
-} from 'react-addons-test-utils';
-import TestBackend from 'react-dnd-test-backend';
-import {
-    DragDropContext
-} from 'react-dnd';
-import assert from 'assert';
-import Note from '../app/components/Note';
+import React from "react";
+import {renderIntoDocument} from "react-addons-test-utils";
+import TestBackend from "react-dnd-test-backend";
+import {DragDropContext} from "react-dnd";
+import assert from "assert";
+import Note from "../app/components/Note";
 
 describe('Note', () => {
     it('renders children', () => {

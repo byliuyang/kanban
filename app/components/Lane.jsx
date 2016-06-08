@@ -5,7 +5,6 @@ import NoteActions from '../actions/NoteActions';
 import NoteStore from '../stores/NoteStore';
 import LaneActions from '../actions/LaneActions';
 import Editable from './Editable';
-
 import {DropTarget} from 'react-dnd';
 import ItemTypes from '../constants/itemTypes';
 

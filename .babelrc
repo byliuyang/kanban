@@ -1,19 +1,19 @@
 {
-  "presets": [
-    "es2016",
-    "react",
-    "survivejs-kanban"
-  ],
-  "env": {
-    "start": {
-      "presets": [
-        "react-hmre"
-      ],
-      "plugins": [
-        [
-          "typecheck"
-        ]
-      ]
+    "presets": [
+        "es2016",
+        "react",
+        "survivejs-kanban"
+    ],
+    "env": {
+        "start": {
+            "presets": [
+                "react-hmre"
+            ],
+            "plugins": [
+                [
+                    "typecheck"
+                ]
+            ]
+        }
     }
-  }
 }

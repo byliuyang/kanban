@@ -4,101 +4,101 @@ import LaneActions from '../actions/LaneActions';
 import update from 'react-addons-update';
 
 class LaneStore {
-    constructor() {
-        this.bindActions(LaneActions);
+  constructor() {
+    this.bindActions(LaneActions);
 
-        this.lanes = [];
-    }
+    this.lanes = [];
+  }
 
-    create(lane) {
-        const lanes = this.lanes;
+  create(lane) {
+    const lanes = this.lanes;
 
-        lane.id = uuid.v4();
+    lane.id = uuid.v4();
 
-        // If `notes` aren't provided for some reason,
-        // default to an empty array
-        lane.notes = lane.notes || [];
-        this.setState({
-            lanes: lanes.concat(lane)
-        });
-    }
+    // If `notes` aren't provided for some reason,
+    // default to an empty array
+    lane.notes = lane.notes || [];
+    this.setState({
+      lanes: lanes.concat(lane)
+    });
+  }
 
-    update(updatedLane) {
-        const lanes = this.lanes.map(lane => {
-            if (lane.id === updatedLane.id) {
-                return Object.assign({}, lane, updatedLane);
-            }
+  update(updatedLane) {
+    const lanes = this.lanes.map(lane => {
+      if (lane.id === updatedLane.id) {
+        return Object.assign({}, lane, updatedLane);
+      }
 
-            return lane;
-        });
+      return lane;
+    });
 
-        this.setState({lanes});
-    }
+    this.setState({lanes});
+  }
 
-    delete(id) {
-        this.setState({
-            lanes: this.lanes.filter(lane => lane.id !== id)
-        });
-    }
+  delete(id) {
+    this.setState({
+      lanes: this.lanes.filter(lane => lane.id !== id)
+    });
+  }
 
-    attachToLane({laneId, noteId}) {
-        const lanes = this.lanes.map(lane => {
-            if (lane.notes.includes(noteId)) {
-                lane.notes = lane.notes.filter(note => note !== noteId);
-            }
+  attachToLane({laneId, noteId}) {
+    const lanes = this.lanes.map(lane => {
+      if (lane.notes.includes(noteId)) {
+        lane.notes = lane.notes.filter(note => note !== noteId);
+      }
 
-            if (lane.id === laneId) {
-                if (lane.notes.includes(noteId)) {
-                    console.warn('Already attached note to lane', lanes);
-                } else {
-                    lane.notes.push(noteId);
-                }
-            }
-
-            return lane;
-        });
-
-        this.setState({lanes});
-    }
-
-    detachFromLane({laneId, noteId}) {
-        const lanes = this.lanes.map(lane => {
-            if (lane.id === laneId) {
-                lane.notes = lane.notes.filter(note => note != noteId);
-            }
-
-            return lane;
-        });
-
-        this.setState({lanes});
-    }
-
-    move({sourceId, targetId}) {
-        const lanes = this.lanes;
-        const sourceLane = lanes.filter(lane => lane.notes.includes(sourceId))[0];
-        const targetLane = lanes.filter(lane => lane.notes.includes(targetId))[0];
-
-        const sourceNoteIndex = sourceLane.notes.indexOf(sourceId);
-        const targetNoteIndex = targetLane.notes.indexOf(targetId);
-
-        if (sourceNoteIndex === targetNoteIndex) {
-            // move at once to avoid complications
-            sourceLane.notes = update(sourceLane.notes, {
-                $splice: [
-                    [sourceNoteIndex, 1],
-                    [targetNoteIndex, 0, sourceId]
-                ]
-            });
+      if (lane.id === laneId) {
+        if (lane.notes.includes(noteId)) {
+          console.warn('Already attached note to lane', lanes);
         } else {
-            // Get rid of source
-            sourceLane.notes.splice(sourceNoteIndex, 1);
-
-            // Move it to target
-            targetLane.notes.splice(targetNoteIndex, 0, sourceId);
+          lane.notes.push(noteId);
         }
+      }
 
-        this.setState({lanes});
+      return lane;
+    });
+
+    this.setState({lanes});
+  }
+
+  detachFromLane({laneId, noteId}) {
+    const lanes = this.lanes.map(lane => {
+      if (lane.id === laneId) {
+        lane.notes = lane.notes.filter(note => note != noteId);
+      }
+
+      return lane;
+    });
+
+    this.setState({lanes});
+  }
+
+  move({sourceId, targetId}) {
+    const lanes = this.lanes;
+    const sourceLane = lanes.filter(lane => lane.notes.includes(sourceId))[0];
+    const targetLane = lanes.filter(lane => lane.notes.includes(targetId))[0];
+
+    const sourceNoteIndex = sourceLane.notes.indexOf(sourceId);
+    const targetNoteIndex = targetLane.notes.indexOf(targetId);
+
+    if (sourceNoteIndex === targetNoteIndex) {
+      // move at once to avoid complications
+      sourceLane.notes = update(sourceLane.notes, {
+        $splice: [
+          [sourceNoteIndex, 1],
+          [targetNoteIndex, 0, sourceId]
+        ]
+      });
+    } else {
+      // Get rid of source
+      sourceLane.notes.splice(sourceNoteIndex, 1);
+
+      // Move it to target
+      targetLane.notes.splice(targetNoteIndex, 0, sourceId);
     }
+
+    this.setState({lanes});
+  }
 
 }
 

@@ -1,13 +1,13 @@
 /*eslint-env node, mocha */
-import React from 'react';
+import React from "react";
 import {
     renderIntoDocument,
     findRenderedDOMComponentWithClass,
     findRenderedDOMComponentWithTag,
     Simulate
-} from 'react-addons-test-utils';
-import assert from 'assert';
-import Editable from '../app/components/Editable';
+} from "react-addons-test-utils";
+import assert from "assert";
+import Editable from "../app/components/Editable";
 
 describe('Editable', () => {
     it('renders value', () => {

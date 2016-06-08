@@ -1,16 +1,16 @@
 /*eslint-env node, mocha */
-import assert from 'assert';
-import NoteActions from '../app/actions/NoteActions';
-import NoteStore from '../app/stores/NoteStore';
-import alt from '../app/libs/alt';
+import assert from "assert";
+import NoteActions from "../app/actions/NoteActions";
+import NoteStore from "../app/stores/NoteStore";
+import alt from "../app/libs/alt";
 
 describe('NoteStore', () => {
     beforeEach(() => {
-       alt.flush();
+        alt.flush();
     });
 
     it('creates notes', () => {
-       const task = 'test';
+        const task = 'test';
 
         NoteActions.create({task});
 
