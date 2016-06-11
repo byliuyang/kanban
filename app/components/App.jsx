@@ -5,8 +5,10 @@ import LaneActions from '../actions/LaneActions';
 import LaneStore from '../stores/LaneStore';
 import {DragDropContext} from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
+import connect from '../decorators/connect';
 
 @DragDropContext(HTML5Backend)
+@connect(LaneStore)
 export default class App extends React.Component {
 
     render() {

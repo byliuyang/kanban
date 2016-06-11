@@ -27,6 +27,10 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const stylelint = require('stylelint');
 const config_suitcss = require('stylelint-config-suitcss');
 
+const autoprefixer = require('autoprefixer');
+const precss = require('precss');
+const cssnext = require('cssnext');
+
 const common = {
     // Entry accept a path or an object of entries.
     // We'll be using the latter form given it's convenient with
@@ -68,7 +72,10 @@ const common = {
                     'color-hex-case': 'lower'
                 }
             }),
-            stylelint(config_suitcss)
+            stylelint(config_suitcss),
+            autoprefixer,
+            precss,
+            cssnext
         ];
     },
     plugins: [
